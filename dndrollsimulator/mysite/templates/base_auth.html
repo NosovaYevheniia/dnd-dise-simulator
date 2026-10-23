@@ -1,0 +1,90 @@
+HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}D&D Authentication{% endblock %}</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url("https://images.unsplash.com/photo-1518709268805-4e9042af9f23");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.94);
+            border-radius: 15px;
+            border: 2px solid #d4af37;
+        }
+
+        .login-btn {
+            background-color: #4b286d;
+            color: white;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #68418c;
+            color: #ffd700;
+        }
+
+        .register-link {
+            color: #6a359c;
+            font-weight: bold;
+        }
+
+        .register-link:hover {
+            color: #d4af37;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-12 col-md-6 mx-auto card p-4 shadow-lg login-card"
+              method="post">
+
+            {% csrf_token %}
+
+            <h2 class="text-center mb-4" style="color: #4b286d;">
+                {% block heading %}{% endblock %}
+            </h2>
+
+            <hr>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block form_content %}{% endblock %}
+
+            {% block footer %}{% endblock %}
+
+            <button type="submit" class="btn login-btn btn-block">
+                {% block button_text %}Submit{% endblock %}
+            </button>
+        </form>
+    </div>
+</body>
+</html>
+
+Skopiowano

@@ -4,9 +4,18 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'registration/home.html')
+
+class BootstrapAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({"class": "form-control", "placeholder": field.label,})
 
 def login_page(request):
     if request.method == "POST":
@@ -18,6 +27,7 @@ def login_page(request):
             return redirect('/login/')
         
         user = authenticate(username=username, password=password)
+        form = BootstrapAuthenticationForm(request, data=request.POST or None)
         
         if user is None:
             messages.error(request, "Invalid Password")
@@ -26,14 +36,21 @@ def login_page(request):
             login(request, user)
             return redirect('/home/')
     
-    return render(request, 'login.html')
+    return render(request, 'registration\login.html')
 
 def register_page(request):
     if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                "Your account has been created successfully. Please log in."
+            )
+            return redirect("login")
+    else:
+        form = UserCreationForm()
         
         user = User.objects.filter(username=username)
         
@@ -53,4 +70,8 @@ def register_page(request):
         messages.info(request, "Account created Successfully!")
         return redirect('/register/')
     
-    return render(request, 'register.html')
+    return render(request, 'register.html', {"form": form})
+
+@login_required
+def home(request):
+    return render(request, 'registration/home.html')

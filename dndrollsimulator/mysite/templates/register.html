@@ -1,56 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Registration Form</title>
-</head>
-<body>
-    <div class="container mt-5">
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+{% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+        </label>
 
-            <h1 style="text-align: center;"><span style="color: rgb(253, 189, 255);">Registration</span></h1>
-            <h3>Register</h3>
-            <hr>
+        {{ field }}
 
-            {% if messages %}
-            <div class="alert alert-primary" role="alert">
-                {% for message in messages %}
-                {{ message }}
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <div class="form-group">
-                <label for="exampleInputEmail1">First name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter First name" name="first_name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleInputEmail1">Last name</label>
-                <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter Last name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
-                <input type="text" class="form-control" name="username" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                    placeholder="Password" required>
-            </div>
-
-            <p>Already have an account <a href="/login/">Login</a> </p>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        {% for error in field.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
     </div>
-</body>
-</html>
+{% endfor %}

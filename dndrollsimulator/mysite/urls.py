@@ -22,12 +22,15 @@ from simulator.views import *
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda request: redirect('login_page')),
     path('admin/', admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path('login/', login_page, name='login_page'),
     path('register/', register_page, name='register')
+
 ]
 
 if settings.DEBUG:
