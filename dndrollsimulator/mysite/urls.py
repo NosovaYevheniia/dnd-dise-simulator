@@ -29,8 +29,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path('login/', login_page, name='login_page'),
-    path('register/', register_page, name='register')
-
+    path('register/', register_page, name='register'),
+    path('home/', home, name='home')
 ]
 
 if settings.DEBUG:
