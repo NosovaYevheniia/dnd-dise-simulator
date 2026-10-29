@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D - Dice Roller</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #241333, #4b286d);
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px 15px 30px 260px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 100vh;
+            background: #241333;
+            border-right: 2px solid #d4af37;
+            padding: 25px 15px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #68418c;
+            color: #ffd700;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.96);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #4b286d;
+        }
+
+        .dice-select, .number-input {
+            padding: 10px;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 8px;
+        }
+
+        .roll-btn {
+            background: #4b286d;
+            color: white;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .roll-btn:hover {
+            background: #68418c;
+            color: #ffd700;
+        }
+
+        .label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #4b286d;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f3eafa;
+            border-radius: 10px;
+            color: #4b286d;
+            font-size: 24px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                display: block;
+                padding: 0;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 2px solid #d4af37;
+            }
+
+            .container {
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <h2>⚔️ D&D Menu</h2>
+
+        <a href="{% url 'home' %}">🏠 Home</a>
+
+        <a href="{% url 'dice_roller' %}" class="active">
+            🎲 Dice Roller
+        </a>
+
+        <a href="/characters/">🧙 Characters</a>
+        <a href="/history/">📜 Roll History</a>
+        <a href="/settings/">⚙️ Settings</a>
+    </nav>
+
+    <div class="container">
+        <h1>🎲 D&D Dice Roller</h1>
+        <p>Choose your dice and test your luck!</p>
+
+        <label class="label" for="dice">
+            Choose your dice
+        </label>
+
+        <select id="dice" class="dice-select">
+            <option value="4">D4</option>
+            <option value="6">D6</option>
+            <option value="8">D8</option>
+            <option value="10">D10</option>
+            <option value="12">D12</option>
+            <option value="20" selected>D20</option>
+            <option value="100">D100</option>
+        </select>
+
+        <label class="label" for="quantity">
+            Number of dice
+        </label>
+
+        <input id="quantity"
+               class="number-input"
+               type="number"
+               min="1"
+               max="20"
+               value="1">
+
+        <br>
+
+        <button class="roll-btn"
+                type="button"
+                onclick="rollDice()">
+            🎲 Roll Dice!
+        </button>
+
+        <div id="result" aria-live="polite">
+            Your result will appear here!
+        </div>
+    </div>
+
+    <script>
+        function rollDice() {
+            const sides = Number(
+                document.getElementById("dice").value
+            );
+
+            const quantity = Number(
+                document.getElementById("quantity").value
+            );
+
+            const result = document.getElementById("result");
+
+            if (
+                !Number.isInteger(quantity) ||
+                quantity < 1 ||
+                quantity > 20
+            ) {
+                result.textContent =
+                    "Please choose between 1 and 20 dice.";
+                return;
+            }
+
+            const rolls = [];
+
+            for (let i = 0; i < quantity; i++) {
+                rolls.push(
+                    Math.floor(Math.random() * sides) + 1
+                );
+            }
+
+            const total = rolls.reduce(
+                (sum, roll) => sum + roll, 0
+            );
+
+            result.innerHTML =
+                "<div>Rolls: " + rolls.join(", ") + "</div>" +
+                "<div style='margin-top:10px'>Total: " +
+                total + "</div>";
+        }
+    </script>
+</body>
+</html>

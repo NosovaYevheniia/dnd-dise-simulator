@@ -12,7 +12,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def home(request):
-    return render(request, 'registration/home.html')
+    return render(request, "home.html")
 
 class BootstrapAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -65,6 +65,8 @@ def register_page(request):
         {'form': form}
     )
 
+def dice_roller(request):
+    return render(request, "dice.html")
 
 @login_required
 def home(request):
