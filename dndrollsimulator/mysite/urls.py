@@ -32,7 +32,18 @@ urlpatterns = [
     path('register/', register_page, name='register'),
     path("home/", views.home, name="home"),
     path("dice/", views.dice_roller, name="dice_roller"),
-]
+    path("dice/roll/", views.roll_dice, name="roll_dice"),
+    path("history/", views.roll_history, name="roll_history"),
+    path("characters/", views.characters, name="characters"),
+    path("settings/", views.settings_page, name="settings"),
+    path("characters/search/", views.character_search, name="character_search"),
+    path("characters/create/", views.create_character, name="create_character"),
+    path(
+        "characters/<int:character_id>/edit/",
+        views.edit_character,
+        name="edit_character",
+    ),
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,321 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px 20px 30px 260px;
+    background: linear-gradient(135deg, #241333, #4b286d);
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+body.home-page {
+    background: linear-gradient(135deg, #241333, #4b286d);
+}
+
+body.home-page .page-card {
+    border: 2px solid #d4af37;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 10;
+    width: 230px;
+    height: 100vh;
+    padding: 25px 15px;
+    overflow-y: auto;
+    background: #241333;
+    border-right: 2px solid #d4af37;
+}
+
+.sidebar h2 {
+    margin: 0 0 30px;
+    color: #d4af37;
+    text-align: center;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #68418c;
+    color: #ffd700;
+}
+
+.sidebar-logout-form {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+.sidebar-logout-button {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    background: #4b286d;
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sidebar-logout-button:hover {
+    background: #68418c;
+    color: #ffd700;
+}
+
+.page-shell {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.page-card {
+    padding: 30px;
+    border: 2px solid #d4af37;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.97);
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.page-card h1 {
+    margin-top: 0;
+    color: #4b286d;
+}
+
+.page-subtitle {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.centered-page {
+    display: flex;
+    min-height: calc(100vh - 60px);
+    align-items: center;
+    justify-content: center;
+}
+
+.centered-page .page-card {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.active-page {
+    display: block;
+}
+
+.settings-page {
+    max-width: 760px;
+}
+
+.settings-page > h1 {
+    color: #fff;
+}
+
+.settings-page > .page-subtitle {
+    color: #eee;
+}
+
+.settings-section {
+    margin-bottom: 18px;
+    padding: 24px;
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.97);
+    box-shadow: 0 0 16px rgba(0,0,0,0.2);
+}
+
+.settings-section h2 {
+    margin-top: 0;
+    color: #4b286d;
+}
+
+.settings-field {
+    margin: 16px 0;
+}
+
+.settings-field > label {
+    display: block;
+    margin-bottom: 7px;
+    color: #4b286d;
+    font-weight: bold;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 11px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.settings-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.settings-checkbox {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    accent-color: #4b286d;
+}
+
+.settings-checkbox-row label {
+    color: #4b286d;
+    font-weight: bold;
+}
+
+.help-text {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.settings-btn {
+    padding: 11px 18px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    background: #4b286d;
+    color: #fff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.settings-btn:hover {
+    background: #68418c;
+    color: #ffd700;
+}
+
+.field-errors {
+    margin: 6px 0 0;
+    color: #b42318;
+}
+
+.message {
+    margin-bottom: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-image: url("https://images.unsplash.com/photo-1518709268805-4e9042af9f23");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.auth-shell {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.login-card {
+    padding: 28px;
+    border: 2px solid #d4af37;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.login-card input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+}
+
+.login-card label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 11px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    background: #4b286d;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #68418c;
+    color: #ffd700;
+}
+
+.register-link {
+    color: #6a359c;
+    font-weight: bold;
+}
+
+.register-link:hover {
+    color: #d4af37;
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 0;
+    }
+
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 2px solid #d4af37;
+    }
+
+    .sidebar-logout-form {
+        margin-top: 8px;
+    }
+
+    .page-shell {
+        width: auto;
+        margin: 20px 10px;
+    }
+
+    .page-card {
+        padding: 20px;
+    }
+
+    .centered-page {
+        min-height: 0;
+    }
+
+    .settings-section {
+        padding: 18px;
+    }
+
+    .auth-page {
+        padding: 12px;
+    }
+}

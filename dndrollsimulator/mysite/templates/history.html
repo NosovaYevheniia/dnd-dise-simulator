@@ -1,0 +1,99 @@
+{% extends "base_template.html" %}
+
+{% block title %}D&amp;D - Roll History{% endblock %}
+{% block extra_head %}
+<style>
+    .roll-entry {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px 20px;
+        margin-bottom: 12px;
+        padding: 16px;
+        border: 1px solid #d4af37;
+        border-radius: 10px;
+        background: #f8f2ff;
+    }
+
+    .roll-title {
+        color: #4b286d;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .roll-date {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .roll-values {
+        grid-column: 1;
+        overflow-wrap: anywhere;
+    }
+
+    .roll-total {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #4b286d;
+        color: #fff;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .empty-history {
+        padding: 36px 20px;
+        color: #666;
+        text-align: center;
+    }
+
+    .roll-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 11px 18px;
+        border: 2px solid #d4af37;
+        border-radius: 8px;
+        background: #4b286d;
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    @media (max-width: 650px) {
+        .roll-entry {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .roll-values,
+        .roll-total {
+            grid-column: 1;
+            grid-row: auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-card">
+    <h1>📜 Roll History</h1>
+    <p class="page-subtitle">Your recent dice rolls, newest first.</p>
+
+    {% for roll in rolls %}
+    <article class="roll-entry">
+        <div class="roll-title">{{ roll.quantity }}d{{ roll.sides }}</div>
+        <time class="roll-date" datetime="{{ roll.created_at|date:'c' }}">
+            {{ roll.created_at|date:"M j, Y, P" }}
+        </time>
+        <div class="roll-values">Rolls: {{ roll.rolls|join:", " }}</div>
+        <div class="roll-total">Total: {{ roll.total }}</div>
+    </article>
+    {% empty %}
+    <div class="empty-history">
+        <h2>No rolls yet</h2>
+        <p>Your rolls will be saved here after you roll the dice.</p>
+        <a class="roll-link" href="{% url 'dice_roller' %}">Roll some dice</a>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

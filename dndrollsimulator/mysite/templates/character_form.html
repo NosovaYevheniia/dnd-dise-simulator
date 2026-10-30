@@ -1,0 +1,59 @@
+
+<div class="character-form">
+    <h2>⚔️ {% if character %}Edit{% else %}Create New{% endif %} Character</h2>
+
+    <form
+        hx-post="{% if character %}{% url 'edit_character' character.pk %}{% else %}{% url 'create_character' %}{% endif %}"
+        hx-encoding="multipart/form-data"
+        enctype="multipart/form-data"
+        hx-target="#character-modal-content"
+        hx-swap="innerHTML">
+
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+            {% if field.name == "strength" or field.name == "dexterity" or field.name == "constitution" or field.name == "intelligence" or field.name == "wisdom" or field.name == "charisma" %}
+            <output class="ability-score-value" for="{{ field.id_for_label }}">{{ field.value }}</output>
+            {% endif %}
+
+            {% for error in field.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        {% if character.image %}
+        <div class="form-group">
+            <p>Current picture:</p>
+            <img
+                class="character-image"
+                src="{{ character.image.url }}"
+                alt="{{ character.name }}">
+        </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        <div class="field-error">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="create-btn">
+                💾 {% if character %}Save Changes{% else %}Save Character{% endif %}
+            </button>
+
+            <button type="button"
+                    class="cancel-btn"
+                    onclick="closeCharacterModal()">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>

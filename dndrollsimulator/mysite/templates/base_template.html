@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}D&amp;D Adventure{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'simulator/preferences.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body
+    class="{% block body_class %}{% endblock %}"
+    data-theme="{{ user_preferences.theme|default:'fantasy' }}"
+    data-large-text="{{ user_preferences.large_text|yesno:'true,false' }}"
+    data-reduce-motion="{{ user_preferences.reduce_motion|yesno:'true,false' }}">
+    {% block navigation %}
+    <nav class="sidebar" aria-label="Main navigation">
+        <h2>⚔️ D&amp;D Menu</h2>
+        <a href="{% url 'home' %}"{% if request.resolver_match.url_name == "home" %} class="active" aria-current="page"{% endif %}>🏠 Home</a>
+        <a href="{% url 'dice_roller' %}"{% if request.resolver_match.url_name == "dice_roller" %} class="active" aria-current="page"{% endif %}>🎲 Dice Roller</a>
+        <a href="{% url 'characters' %}"{% if request.resolver_match.url_name == "characters" %} class="active" aria-current="page"{% endif %}>🧙 Characters</a>
+        <a href="{% url 'roll_history' %}"{% if request.resolver_match.url_name == "roll_history" %} class="active" aria-current="page"{% endif %}>📜 Roll History</a>
+        <a href="{% url 'settings' %}"{% if request.resolver_match.url_name == "settings" %} class="active" aria-current="page"{% endif %}>⚙️ Settings</a>
+        {% if request.user.is_authenticated %}
+        <form class="sidebar-logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="sidebar-logout-button" type="submit">Log out</button>
+        </form>
+        {% endif %}
+    </nav>
+    {% endblock %}
+
+    <main class="page-shell{% block page_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

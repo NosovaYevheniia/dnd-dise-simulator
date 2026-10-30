@@ -1,0 +1,89 @@
+{% extends "base_template.html" %}
+
+{% block title %}D&amp;D - Settings{% endblock %}
+{% block page_class %} settings-page{% endblock %}
+{% block content %}
+<h1>⚙️ Settings</h1>
+<p class="page-subtitle">Personalize your adventure and account.</p>
+
+{% for message in messages %}
+<div class="message" role="status">{{ message }}</div>
+{% endfor %}
+
+<section class="settings-section" aria-labelledby="appearance-heading">
+    <h2 id="appearance-heading">Appearance &amp; accessibility</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="section" value="appearance">
+
+        <div class="settings-field">
+            <label for="{{ preferences_form.theme.id_for_label }}">Color theme</label>
+            {{ preferences_form.theme }}
+            {% for error in preferences_form.theme.errors %}
+            <p class="field-errors">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="settings-checkbox-row">
+            {{ preferences_form.large_text }}
+            <div>
+                <label for="{{ preferences_form.large_text.id_for_label }}">Larger text</label>
+                <span class="help-text">Increase the base text size across the app.</span>
+            </div>
+        </div>
+        {% for error in preferences_form.large_text.errors %}
+        <p class="field-errors">{{ error }}</p>
+        {% endfor %}
+
+        <div class="settings-checkbox-row">
+            {{ preferences_form.reduce_motion }}
+            <div>
+                <label for="{{ preferences_form.reduce_motion.id_for_label }}">Reduce motion</label>
+                <span class="help-text">Turn off most animated transitions.</span>
+            </div>
+        </div>
+        {% for error in preferences_form.reduce_motion.errors %}
+        <p class="field-errors">{{ error }}</p>
+        {% endfor %}
+
+        <button class="settings-btn" type="submit">Save preferences</button>
+    </form>
+</section>
+
+<section class="settings-section" aria-labelledby="username-heading">
+    <h2 id="username-heading">Account name</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="section" value="username">
+        <div class="settings-field">
+            <label for="{{ username_form.username.id_for_label }}">Username</label>
+            {{ username_form.username }}
+            {% for error in username_form.username.errors %}
+            <p class="field-errors">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <button class="settings-btn" type="submit">Update username</button>
+    </form>
+</section>
+
+<section class="settings-section" aria-labelledby="password-heading">
+    <h2 id="password-heading">Change password</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="section" value="password">
+        {% for field in password_form %}
+        <div class="settings-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <span class="help-text">{{ field.help_text|safe }}</span>
+            {% endif %}
+            {% for error in field.errors %}
+            <p class="field-errors">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button class="settings-btn" type="submit">Change password</button>
+    </form>
+</section>
+{% endblock %}

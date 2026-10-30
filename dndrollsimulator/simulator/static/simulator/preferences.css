@@ -1,0 +1,109 @@
+body[data-theme="light"] {
+    background: #edf1f5 !important;
+    color: #20232a;
+}
+
+body[data-theme="light"] .sidebar {
+    background: #fff;
+    border-color: #68418c;
+}
+
+body[data-theme="light"] .sidebar h2 {
+    color: #4b286d;
+}
+
+body[data-theme="light"] .sidebar a {
+    color: #342342;
+}
+
+body[data-theme="light"] .sidebar a:hover,
+body[data-theme="light"] .sidebar a.active {
+    background: #eee5f7;
+    color: #4b286d;
+}
+
+body[data-theme="light"] .container,
+body[data-theme="light"] .page-card,
+body[data-theme="light"] .modal-box,
+body[data-theme="light"] .settings-section {
+    background: #fff;
+    color: #20232a;
+}
+
+body[data-theme="light"] .character-card {
+    background: #f7f4fb;
+}
+
+body[data-theme="light"] .search-bar,
+body[data-theme="light"] .settings-input {
+    background: #fff;
+    color: #20232a;
+}
+
+body[data-theme="light"] h1,
+body[data-theme="light"] h2,
+body[data-theme="light"] h3 {
+    color: #4b286d;
+}
+
+body[data-theme="dark"] {
+    background: #17141e !important;
+    color: #f1edf5;
+}
+
+body[data-theme="dark"] .sidebar {
+    background: #100e16;
+    border-color: #8e6ab0;
+}
+
+body[data-theme="dark"] .sidebar a {
+    color: #f1edf5;
+}
+
+body[data-theme="dark"] .container,
+body[data-theme="dark"] .page-card,
+body[data-theme="dark"] .modal-box,
+body[data-theme="dark"] .settings-section,
+body[data-theme="dark"] .character-card {
+    background: #26212f;
+    color: #f1edf5;
+}
+
+body[data-theme="dark"] .search-bar,
+body[data-theme="dark"] .settings-input {
+    background: #17141e;
+    color: #f1edf5;
+}
+
+body[data-theme="dark"] .subtitle,
+body[data-theme="dark"] .character-card p,
+body[data-theme="dark"] .help-text {
+    color: #c9c0d2;
+}
+
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] label {
+    color: #e4d4f5;
+}
+
+body[data-large-text="true"] {
+    font-size: 1.15rem;
+}
+
+body[data-large-text="true"] button,
+body[data-large-text="true"] input,
+body[data-large-text="true"] select,
+body[data-large-text="true"] textarea {
+    font-size: 1.05em;
+}
+
+body[data-reduce-motion="true"] *,
+body[data-reduce-motion="true"] *::before,
+body[data-reduce-motion="true"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+}

@@ -1,0 +1,309 @@
+{% extends "base_template.html" %}
+{% load static %}
+
+{% block title %}D&amp;D - Characters{% endblock %}
+{% block extra_head %}
+<script
+    src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0"
+    integrity="sha384-BvJpBiO8Kh31EqtJe5DRIeWrHWnCGkwytKs9NKFi86Hhw96dEqdEMzZDeK9iEGTc"
+    crossorigin="anonymous">
+</script>
+<style>
+    .search-bar {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 15px 20px;
+        border: 2px solid #d4af37;
+        border-radius: 10px;
+        background: #f9f5fd;
+        color: #4b286d;
+        font-size: 16px;
+    }
+
+    .character-card {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+        padding: 20px;
+        border: 1px solid #d4af37;
+        border-radius: 10px;
+        background: #f8f2ff;
+    }
+
+    .character-image {
+        width: 72px;
+        height: 72px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .character-image-placeholder {
+        display: grid;
+        place-items: center;
+        background: #e9def4;
+        color: #4b286d;
+        font-size: 28px;
+    }
+
+    .character-details {
+        min-width: 0;
+    }
+
+    .character-details h3,
+    .character-details p {
+        overflow-wrap: anywhere;
+    }
+
+    .character-details h3 {
+        margin: 0 0 8px;
+        color: #4b286d;
+    }
+
+    .character-details p {
+        margin: 0;
+        color: #666;
+    }
+
+    .character-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        white-space: nowrap;
+    }
+
+    .level {
+        padding: 8px 14px;
+        border-radius: 8px;
+        background: #4b286d;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .edit-btn,
+    .create-btn {
+        padding: 10px 16px;
+        border: 2px solid #d4af37;
+        border-radius: 8px;
+        background: #4b286d;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .edit-btn:hover,
+    .create-btn:hover {
+        background: #68418c;
+        color: #ffd700;
+    }
+
+    .htmx-indicator {
+        display: none;
+        margin: 10px 0;
+        color: #68418c;
+    }
+
+    .htmx-request.htmx-indicator {
+        display: block;
+    }
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background: rgba(0,0,0,0.65);
+    }
+
+    .modal-box {
+        position: relative;
+        width: 100%;
+        max-width: 480px;
+        max-height: 90vh;
+        padding: 30px;
+        overflow-y: auto;
+        border: 2px solid #d4af37;
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        border: 0;
+        background: transparent;
+        color: #4b286d;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .character-form h2 {
+        margin: 0 0 25px;
+        color: #4b286d;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #4b286d;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #d4af37;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .form-group input.ability-score-slider {
+        padding: 0;
+        border: 0;
+        accent-color: #4b286d;
+        cursor: pointer;
+    }
+
+    .ability-score-value {
+        display: inline-block;
+        min-width: 2ch;
+        margin-top: 6px;
+        color: #4b286d;
+        font-weight: bold;
+    }
+
+    .ability-score-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        margin-top: 12px;
+    }
+
+    .ability-score {
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: #eee5f7;
+        color: #4b286d;
+        font-size: 0.9em;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .cancel-btn {
+        margin-bottom: 20px;
+        padding: 12px 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #eee;
+        color: #4b286d;
+        cursor: pointer;
+    }
+
+    .field-error {
+        margin-top: 5px;
+        color: #b42318;
+        font-size: 13px;
+    }
+
+    @media (max-width: 650px) {
+        .character-card {
+            grid-template-columns: 56px minmax(0, 1fr);
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .character-image {
+            grid-row: span 2;
+            width: 56px;
+            height: 56px;
+        }
+
+        .character-actions {
+            grid-column: 2;
+            justify-content: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_class %} active-page{% endblock %}
+{% block content %}
+<section class="page-card">
+    <h1>🧙 Characters</h1>
+    <button
+        type="button"
+        class="create-btn"
+        hx-get="{% url 'create_character' %}"
+        hx-target="#character-modal-content"
+        hx-swap="innerHTML"
+        onclick="openCharacterModal()">
+        + Create Character
+    </button>
+
+    <p class="page-subtitle">
+        Explore your D&amp;D characters and find your next adventurer!
+    </p>
+
+    <input
+        type="search"
+        name="q"
+        class="search-bar"
+        placeholder="🔍 Search by name, race or class..."
+        aria-label="Search characters"
+        hx-get="{% url 'character_search' %}"
+        hx-trigger="input changed delay:300ms, search, characterSaved from:body"
+        hx-target="#character-results"
+        hx-swap="innerHTML"
+        hx-sync="this:replace"
+        hx-indicator="#loading"
+        autocomplete="off">
+
+    <div id="loading" class="htmx-indicator">Searching...</div>
+    <div id="character-results" aria-live="polite">
+        {% include "_character_results.html" %}
+    </div>
+</section>
+
+<div id="character-modal" class="modal">
+    <div class="modal-box">
+        <button
+            type="button"
+            class="modal-close"
+            aria-label="Close dialog"
+            onclick="closeCharacterModal()">✕</button>
+        <div id="character-modal-content"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function openCharacterModal() {
+        document.getElementById("character-modal").style.display = "flex";
+    }
+
+    function closeCharacterModal() {
+        document.getElementById("character-modal").style.display = "none";
+    }
+
+    document.body.addEventListener("characterSaved", function() {
+        closeCharacterModal();
+        document.getElementById("character-modal-content").innerHTML = "";
+    });
+</script>
+{% endblock %}

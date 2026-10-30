@@ -1,0 +1,58 @@
+{% for character in characters %}
+
+<div class="character-card">
+
+    {% if character.image %}
+    <img
+        class="character-image"
+        src="{{ character.image.url }}"
+        alt="{{ character.name }}">
+    {% else %}
+    <div class="character-image character-image-placeholder" aria-hidden="true">
+        ⚔️
+    </div>
+    {% endif %}
+
+    <div class="character-details">
+        <h3>⚔️ {{ character.name }}</h3>
+
+        <p>
+            {{ character.race }} |
+            {{ character.character_class }}
+        </p>
+        <div class="ability-score-list" aria-label="Ability scores">
+            <span class="ability-score">STR {{ character.strength }}</span>
+            <span class="ability-score">DEX {{ character.dexterity }}</span>
+            <span class="ability-score">CON {{ character.constitution }}</span>
+            <span class="ability-score">INT {{ character.intelligence }}</span>
+            <span class="ability-score">WIS {{ character.wisdom }}</span>
+            <span class="ability-score">CHA {{ character.charisma }}</span>
+        </div>
+    </div>
+
+    <div class="character-actions">
+        <span class="level">
+            Level {{ character.level }}
+        </span>
+
+        <button
+            type="button"
+            class="edit-btn"
+            hx-get="{% url 'edit_character' character.pk %}"
+            hx-target="#character-modal-content"
+            hx-swap="innerHTML"
+            onclick="openCharacterModal()">
+            Edit
+        </button>
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="no-results">
+    <h3>No characters found</h3>
+    <p>Try searching for a different character.</p>
+</div>
+
+{% endfor %}
